@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="StateView">
+        <attr name="contentLayout" format="reference" />
+        <attr name="loadingLayout" format="reference" />
+        <attr name="noDataLayout" format="reference" />
+        <attr name="errorLayout" format="reference" />
+        <attr name="contentViewId" format="reference" />
+        <attr name="loadingViewId" format="reference" />
+        <attr name="noDataViewId" format="reference" />
+        <attr name="errorViewId" format="reference" />
+        <attr name="applyAlphaAnimationToLoadingView" format="boolean" />
+        <attr name="showContentBehindLoadingLayout" format="boolean" />
+    </declare-styleable>
+</resources>

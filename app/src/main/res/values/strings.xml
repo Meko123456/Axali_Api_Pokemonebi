@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Axali Pokemon App</string>
+    <string name="search_not_found_generic">Sorry, but nothing was found for your search. Please refine your search criteria or try other keywords to get the information you need.</string>
+    <string name="refresh_generic">Refresh</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="error_no_internet_title">Apologies, but there is no internet connection. Regrettably, at the moment, you do not have access to the network.</string>
+    <string name="error_generic">Oh! It seems that something went wrong. Sorry for the inconvenience! Our team is working on a solution to this problem. Please try again later. Thank you for your understanding!</string>
+    <string name="tv_similar_title">SIMILAR</string>
+</resources>
