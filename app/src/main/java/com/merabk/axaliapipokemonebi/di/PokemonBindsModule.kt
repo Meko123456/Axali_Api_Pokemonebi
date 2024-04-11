@@ -13,7 +13,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface SomeBindsModule {
+interface PokemonBindsModule {
 
     @Binds
     fun bindDispatchers(

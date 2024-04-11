@@ -39,9 +39,8 @@ class StateView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
     private val applyAlphaAnimationToLoadingView: Boolean
 
-    private val infiniteAlphaAnim =
-        AnimationUtils.loadAnimation(context, R.anim.infinite_alpha)
-
+    private val fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+    private val fadeOutAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
 
     init {
         //        layoutTransition = LayoutTransition().apply {
@@ -126,9 +125,10 @@ class StateView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
         if (visibility != View.VISIBLE) {
-            loadingView?.clearAnimation()
+            loadingView?.startAnimation(fadeOutAnimation)
+//            loadingView?.clearAnimation()
         } else if (loadingView?.visibility == View.VISIBLE && applyAlphaAnimationToLoadingView) {
-            loadingView?.startAnimation(infiniteAlphaAnim)
+            loadingView?.startAnimation(fadeInAnimation)
         }
     }
     //
@@ -162,9 +162,14 @@ class StateView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         }
         if (applyAlphaAnimationToLoadingView) {
             if (loadingView?.visibility == View.VISIBLE) {
-                loadingView?.startAnimation(infiniteAlphaAnim)
+                loadingView?.startAnimation(fadeInAnimation)
             } else {
-                loadingView?.clearAnimation()
+                loadingView?.startAnimation(fadeOutAnimation)
+            }
+            if (contentView?.visibility == View.VISIBLE) {
+                contentView?.startAnimation(fadeInAnimation)
+            } else {
+                contentView?.startAnimation(fadeOutAnimation)
             }
         }
     }

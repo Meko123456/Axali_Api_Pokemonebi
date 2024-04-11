@@ -6,7 +6,9 @@ object Constants {
 
     const val PAGE_SIZE = 200
 
-    const val IMAGE_BEGINNING = "https://image.tmdb.org/t/p/w500"
+    const val IMAGE_BEGINNING =
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"
+    const val IMAGE_END = ".png"
     const val ERROR_NO_INTERNET_TITLE =
         "Apologies, but there is no internet connection. Regrettably, at the moment, you do not have access to the network."
 

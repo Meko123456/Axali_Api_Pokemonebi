@@ -9,6 +9,7 @@
         android:id="@+id/tv_state_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:applyAlphaAnimationToLoadingView="true"
         app:contentViewId="@id/content_view"
         app:errorLayout="@layout/tmdb_error_state"
         app:layout_constraintBottom_toBottomOf="parent"

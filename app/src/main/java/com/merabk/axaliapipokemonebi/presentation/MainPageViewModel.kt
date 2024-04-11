@@ -3,6 +3,8 @@ package com.merabk.axaliapipokemonebi.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.merabk.axaliapipokemonebi.domain.usecase.GetPokemonListUseCase
+import com.merabk.axaliapipokemonebi.util.Constants.IMAGE_BEGINNING
+import com.merabk.axaliapipokemonebi.util.Constants.IMAGE_END
 import com.merabk.axaliapipokemonebi.util.Dispatchers
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -37,9 +39,12 @@ class MainPageViewModel @Inject constructor(
                     } else {
                         entry.url.takeLastWhile { it.isDigit() }
                     }
-                    val url =
-                        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${number}.png"
-                    PokedexListEntry(entry.name.capitalize(Locale.ROOT), url, number.toInt())
+                    val url = "$IMAGE_BEGINNING${number}$IMAGE_END"
+                    PokedexListEntry(entry.name.replaceFirstChar {
+                        if (it.isLowerCase()) it.titlecase(
+                            Locale.ROOT
+                        ) else it.toString()
+                    }, url, number.toInt())
                 }
                 _allPokemonsData.tryEmit(DataState.Success(pokedexEntries))
             }
