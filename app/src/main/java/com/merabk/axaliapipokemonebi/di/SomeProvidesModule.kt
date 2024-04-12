@@ -1,6 +1,8 @@
 package com.merabk.axaliapipokemonebi.di
 
+import com.merabk.axaliapipokemonebi.data.usecase.GetPokemonDetailsUseCaseImpl
 import com.merabk.axaliapipokemonebi.data.usecase.GetPokemonListUseCaseImpl
+import com.merabk.axaliapipokemonebi.domain.usecase.GetPokemonDetailsUseCase
 import com.merabk.axaliapipokemonebi.domain.usecase.GetPokemonListUseCase
 import dagger.Module
 import dagger.Provides
@@ -15,5 +17,10 @@ class SomeProvidesModule {
     fun bindGetAllMoviesUseCase(
         getAllMoviesUseCase: GetPokemonListUseCaseImpl
     ): GetPokemonListUseCase = getAllMoviesUseCase
+
+    @Provides
+    fun bindGetPokemonDetailsUseCase(
+        getAllMoviesUseCase: GetPokemonDetailsUseCaseImpl
+    ): GetPokemonDetailsUseCase = getAllMoviesUseCase
 
 }

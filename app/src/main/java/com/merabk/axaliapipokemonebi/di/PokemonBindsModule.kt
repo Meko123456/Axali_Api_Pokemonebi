@@ -1,6 +1,7 @@
 package com.merabk.axaliapipokemonebi.di
 
 import com.merabk.axaliapipokemonebi.data.mapper.ErrorMapper
+import com.merabk.axaliapipokemonebi.data.mapper.PokemonDetailsMapper
 import com.merabk.axaliapipokemonebi.data.mapper.PokemonMapper
 import com.merabk.axaliapipokemonebi.data.repo.PokemonRepositoryImpl
 import com.merabk.axaliapipokemonebi.domain.repo.PokemonRepository
@@ -30,6 +31,10 @@ interface PokemonBindsModule {
     fun bindAllFilmsMapper(
         pokemonMapper: PokemonMapper.PokemonMapperImpl
     ): PokemonMapper
+    @Binds
+    fun bindPokemonDetailsMapper(
+        pokemonMapper: PokemonDetailsMapper.PokemonMapperImpl
+    ): PokemonDetailsMapper
 
     @Binds
     fun bindErrorMapper(impl: ErrorMapper.ErrorMapperImpl): ErrorMapper
