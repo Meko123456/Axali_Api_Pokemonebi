@@ -1,6 +1,7 @@
 package com.merabk.axaliapipokemonebi.data.repo
 
 import com.merabk.axaliapipokemonebi.data.mapper.ErrorMapper
+import com.merabk.axaliapipokemonebi.data.mapper.NoInternetException
 import com.merabk.axaliapipokemonebi.data.mapper.PokemonDetailsMapper
 import com.merabk.axaliapipokemonebi.data.mapper.PokemonMapper
 import com.merabk.axaliapipokemonebi.data.model.Pokemon
@@ -20,10 +21,12 @@ import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit4.MockKRule
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import retrofit2.Response
+import java.net.ConnectException
 
 class PokemonRepositoryImplTest {
 
@@ -70,6 +73,19 @@ class PokemonRepositoryImplTest {
         val result = repository.getPokemonList(limit, offset)
         assertEquals(mappedPokemonList, result.getOrThrow())
     }
+
+    @Test
+    fun testGetPokemonListErrorCase() = runTest {
+        val limit = 10
+        val offset = 0
+        val exception = ConnectException()
+        coEvery { mockService.getPokemonList(limit, offset) } throws exception
+        every { mockErrorMapper.invoke(exception) } returns NoInternetException()
+        val result = repository.getPokemonList(limit, offset)
+        Assert.assertTrue(result.isFailure)
+        Assert.assertTrue(result.exceptionOrNull() is NoInternetException)
+    }
+
 
     @Test
     fun testGetPokemonInfo() = runTest {
@@ -120,5 +136,16 @@ class PokemonRepositoryImplTest {
         every { mockPokemonDetailsMapper.map(pokemon) } returns mappedPokemonInfo
         val result = repository.getPokemonInfo(pokemonName)
         assertEquals(mappedPokemonInfo, result.getOrThrow())
+    }
+
+    @Test
+    fun testGetPokemonInfoErrorCase() = runTest {
+        val pokemonName = "Pikachu"
+        val exception = ConnectException()
+        coEvery { mockService.getPokemonInfo(pokemonName) } throws exception
+        every { mockErrorMapper.invoke(exception) } returns NoInternetException()
+        val result = repository.getPokemonInfo(pokemonName)
+        Assert.assertTrue(result.isFailure)
+        Assert.assertTrue(result.exceptionOrNull() is NoInternetException)
     }
 }
