@@ -15,28 +15,36 @@ import com.merabk.axaliapipokemonebi.data.service.PokemonApi
 import com.merabk.axaliapipokemonebi.domain.model.PokemonDomainModel
 import com.merabk.axaliapipokemonebi.domain.model.PokemonMainPageModel
 import io.mockk.coEvery
-import io.mockk.mockk
+import io.mockk.every
+import io.mockk.impl.annotations.InjectMockKs
+import io.mockk.impl.annotations.MockK
+import io.mockk.junit4.MockKRule
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import retrofit2.Response
 
 class PokemonRepositoryImplTest {
 
+    @get:Rule
+    val mockRule = MockKRule(this)
+
+    @MockK
     private lateinit var mockService: PokemonApi
+
+    @MockK
     private lateinit var mockPokemonMapper: PokemonMapper
+
+    @MockK
     private lateinit var mockPokemonDetailsMapper: PokemonDetailsMapper
+
+    @MockK
     private lateinit var mockErrorMapper: ErrorMapper
+
+    @InjectMockKs
     private lateinit var repository: PokemonRepositoryImpl
 
-    @Before
-    fun setUp() {
-        mockService = mockk()
-        mockPokemonMapper = mockk()
-        mockPokemonDetailsMapper = mockk()
-        mockErrorMapper = mockk()
-    }
 
     @Test
     fun testGetPokemonList() = runTest {
@@ -44,32 +52,23 @@ class PokemonRepositoryImplTest {
         val offset = 0
         val pokemonApiResult1 = PokemonApiResult("bulbasaur", "https://pokeapi.co/api/v2/pokemon/1")
         val pokemonApiResult2 = PokemonApiResult("ivysaur", "https://pokeapi.co/api/v2/pokemon/2")
-
         val pokemonListResponse = PokemonListApiModel(
             count = 2,
             next = "https://pokeapi.co/api/v2/pokemon?offset=2&limit=0",
             previous = 0,
             results = listOf(pokemonApiResult1, pokemonApiResult2)
         )
-
         val pokemonMainPageModel1 =
             PokemonMainPageModel("bulbasaur", "https://pokeapi.co/api/v2/pokemon/1")
         val pokemonMainPageModel2 =
             PokemonMainPageModel("ivysaur", "https://pokeapi.co/api/v2/pokemon/2")
-
         val mappedPokemonList =
             listOf(pokemonMainPageModel1, pokemonMainPageModel2) // Mocked mapped list of Pokemon
-
         val response = Response.success(pokemonListResponse)
-
         coEvery { mockService.getPokemonList(limit, offset) } returns response
-        coEvery { mockPokemonMapper.map(pokemonListResponse.results) } returns mappedPokemonList
-
-        repository = PokemonRepositoryImpl(mockService, mockPokemonMapper, mockk(), mockErrorMapper)
-
+        every { mockPokemonMapper.map(pokemonListResponse.results) } returns mappedPokemonList
         val result = repository.getPokemonList(limit, offset)
-
-        assertEquals(Result.success(mappedPokemonList), result)
+        assertEquals(mappedPokemonList, result.getOrThrow())
     }
 
     @Test
@@ -79,25 +78,21 @@ class PokemonRepositoryImplTest {
             name = "electric",
             url = "https://pokeapi.co/api/v2/type/13/"
         )
-
         val type = Type(
             slot = 1,
             type = typeX
         )
-
         val sprites = Sprites(
             back_default = "https://example.com/pikachu_back_default.png",
             back_shiny = "https://example.com/pikachu_back_shiny.png",
             front_default = "https://example.com/pikachu_front_default.png",
             front_shiny = "https://example.com/pikachu_front_shiny.png"
         )
-
         val stats = Stats(
             base_stat = 35,
             effort = 0, // Adjust this as needed
             stat = Stat("hp", "https://pokeapi.co/api/v2/stat/1/")
         )
-
         val pokemon = Pokemon(
             types = listOf(type),
             sprites = sprites,
@@ -106,9 +101,7 @@ class PokemonRepositoryImplTest {
             height = 4,
             weight = 60
         )
-
         val response = Response.success(pokemon)
-
         coEvery { mockService.getPokemonInfo(pokemonName) } returns response
         val mappedPokemonInfo = PokemonDomainModel(
             typeItem = listOf("electric"),
@@ -124,13 +117,8 @@ class PokemonRepositoryImplTest {
             weight = 60
         )
         coEvery { mockService.getPokemonInfo(pokemonName) } returns response
-        coEvery { mockPokemonDetailsMapper.map(pokemon) } returns mappedPokemonInfo
-
-        repository =
-            PokemonRepositoryImpl(mockService, mockk(), mockPokemonDetailsMapper, mockErrorMapper)
-
+        every { mockPokemonDetailsMapper.map(pokemon) } returns mappedPokemonInfo
         val result = repository.getPokemonInfo(pokemonName)
-
-        assertEquals(Result.success(mappedPokemonInfo), result)
+        assertEquals(mappedPokemonInfo, result.getOrThrow())
     }
 }
