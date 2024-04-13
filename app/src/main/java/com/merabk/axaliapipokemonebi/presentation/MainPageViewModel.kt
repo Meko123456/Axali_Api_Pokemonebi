@@ -2,7 +2,7 @@ package com.merabk.axaliapipokemonebi.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.merabk.axaliapipokemonebi.domain.model.PokemonDomeinModel
+import com.merabk.axaliapipokemonebi.domain.model.PokemonDomainModel
 import com.merabk.axaliapipokemonebi.domain.usecase.GetPokemonDetailsUseCase
 import com.merabk.axaliapipokemonebi.domain.usecase.GetPokemonListUseCase
 import com.merabk.axaliapipokemonebi.util.Constants.IMAGE_BEGINNING
@@ -29,7 +29,7 @@ class MainPageViewModel @Inject constructor(
         MutableSharedFlow(replay = 2)
     val allPokemonData = _allPokemonsData.asSharedFlow()
 
-    private val _getPokemonDetails: MutableStateFlow<DataState<PokemonDomeinModel>> =
+    private val _getPokemonDetails: MutableStateFlow<DataState<PokemonDomainModel>> =
         MutableStateFlow(DataState.Loading)
     val getPokemonDetails = _getPokemonDetails.asStateFlow()
 

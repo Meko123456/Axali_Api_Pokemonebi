@@ -9,4 +9,12 @@
     <string name="error_no_internet_title">Apologies, but there is no internet connection. Regrettably, at the moment, you do not have access to the network.</string>
     <string name="error_generic">Oh! It seems that something went wrong. Sorry for the inconvenience! Our team is working on a solution to this problem. Please try again later. Thank you for your understanding!</string>
     <string name="tv_similar_title">SIMILAR</string>
+    <string name="hp">HP</string>
+    <string name="atk">ATK</string>
+    <string name="def">DEF</string>
+    <string name="spd">SPD</string>
+    <string name="base_stats">Base Stats</string>
+    <string name="special_atk">SAtk</string>
+    <string name="special_def">SDef</string>
+    <string name="base_category">Category</string>
 </resources>

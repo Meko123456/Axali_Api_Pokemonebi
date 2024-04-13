@@ -1,18 +1,17 @@
 package com.merabk.axaliapipokemonebi.util
 
-import android.content.Context
-import android.content.res.TypedArray
-import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
+import com.merabk.axaliapipokemonebi.presentation.StateView
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -26,29 +25,17 @@ fun ImageView.loadImageWithGlide(imageUrl: String) {
 
 }
 
+fun errorExt(result: String, tvStateView: StateView) {
+    tvStateView.errorView?.findViewById<TextView>(com.merabk.axaliapipokemonebi.R.id.tv_message)?.text =
+        result
+}
+
 fun <T> Fragment.collectFlow(flow: Flow<T>, onCollect: suspend (T) -> Unit) =
     viewLifecycleOwner.lifecycleScope.launch {
         repeatOnLifecycle(Lifecycle.State.STARTED) {
             flow.collectLatest(onCollect)
         }
     }
-
-inline fun AttributeSet?.obtainStyledAttributes(
-    context: Context,
-    styleable: IntArray,
-    block: TypedArray.() -> Unit
-) {
-    if (this == null) {
-        return
-    }
-
-    val typedArray = context.obtainStyledAttributes(this, styleable, 0, 0)
-    try {
-        block(typedArray)
-    } finally {
-        typedArray.recycle()
-    }
-}
 
 inline fun <T, R> callAndMap(
     serviceCall: () -> Response<T>,

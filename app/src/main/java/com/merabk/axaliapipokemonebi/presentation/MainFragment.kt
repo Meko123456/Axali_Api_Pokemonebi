@@ -5,13 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.merabk.axaliapipokemonebi.databinding.FragmentMainBinding
-import com.merabk.axaliapipokemonebi.util.DebouncingQueryTextListener
 import com.merabk.axaliapipokemonebi.util.collectFlow
+import com.merabk.axaliapipokemonebi.util.errorExt
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.SharedFlow
 
@@ -22,13 +21,6 @@ class MainFragment : Fragment(), MainAdapter.MovieItemClickListener {
     private val viewModel by viewModels<MainPageViewModel>()
     private var mainAdapter: MainAdapter = MainAdapter(this)
 
-
-    private val debouncingQueryTextListener by lazy {
-        DebouncingQueryTextListener(
-            lifecycle = this@MainFragment.lifecycle,
-            onDebouncingQueryTextChange = viewModel::searchTv
-        )
-    }
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,7 +34,6 @@ class MainFragment : Fragment(), MainAdapter.MovieItemClickListener {
             ?.setOnClickListener {
                 viewModel.getPokemonList()
             }
-        searchView.setOnQueryTextListener(debouncingQueryTextListener)
     }
 
     private fun collectData() = with(viewModel) {
@@ -66,16 +57,12 @@ class MainFragment : Fragment(), MainAdapter.MovieItemClickListener {
                 is DataState.Error -> {
                     val errorMessage = dataState.message
                     binding.tvStateView.showError()
-                    error(errorMessage)
+                    errorExt(errorMessage, binding.tvStateView)
                 }
             }
         }
     }
 
-    private fun error(result: String) = with(binding) {
-        tvStateView.errorView?.findViewById<TextView>(com.merabk.axaliapipokemonebi.R.id.tv_message)?.text =
-            result
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

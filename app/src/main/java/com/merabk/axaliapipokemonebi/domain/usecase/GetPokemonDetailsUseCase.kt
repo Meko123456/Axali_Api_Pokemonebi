@@ -1,9 +1,9 @@
 package com.merabk.axaliapipokemonebi.domain.usecase
 
-import com.merabk.axaliapipokemonebi.domain.model.PokemonDomeinModel
+import com.merabk.axaliapipokemonebi.domain.model.PokemonDomainModel
 
 interface GetPokemonDetailsUseCase {
-    suspend operator fun invoke(name: String): Result<PokemonDomeinModel>
+    suspend operator fun invoke(name: String): Result<PokemonDomainModel>
 }
 
 /*

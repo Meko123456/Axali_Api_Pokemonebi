@@ -4,7 +4,7 @@ import com.merabk.axaliapipokemonebi.data.mapper.ErrorMapper
 import com.merabk.axaliapipokemonebi.data.mapper.PokemonDetailsMapper
 import com.merabk.axaliapipokemonebi.data.mapper.PokemonMapper
 import com.merabk.axaliapipokemonebi.data.service.PokemonApi
-import com.merabk.axaliapipokemonebi.domain.model.PokemonDomeinModel
+import com.merabk.axaliapipokemonebi.domain.model.PokemonDomainModel
 import com.merabk.axaliapipokemonebi.domain.model.PokemonMainPageModel
 import com.merabk.axaliapipokemonebi.domain.repo.PokemonRepository
 import com.merabk.axaliapipokemonebi.util.callAndMap
@@ -29,7 +29,7 @@ class PokemonRepositoryImpl @Inject constructor(
         }
     ).mapError(errorMapper::invoke)
 
-    override suspend fun getPokemonInfo(name: String): Result<PokemonDomeinModel> = callAndMap(
+    override suspend fun getPokemonInfo(name: String): Result<PokemonDomainModel> = callAndMap(
         serviceCall = {
             service.getPokemonInfo(name)
         },

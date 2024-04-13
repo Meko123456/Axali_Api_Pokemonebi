@@ -1,26 +1,225 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    >
 
-    <ImageView
-        android:id="@+id/iv_image"
-        android:layout_width="84dp"
-        android:layout_height="84dp"
-        android:importantForAccessibility="no"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
-
-    <TextView
-        android:id="@+id/text_view"
+    <com.merabk.axaliapipokemonebi.presentation.StateView
+        android:id="@+id/tv_state_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent"
+        app:applyAlphaAnimationToLoadingView="true"
+        app:contentViewId="@id/details_content"
+        app:errorLayout="@layout/tmdb_error_state"
+        app:loadingLayout="@layout/lottie_loader_layout"
+        app:noDataLayout="@layout/tmdb_empty_state">
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/details_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    tools:title="@string/app_name">
+
+                </androidx.appcompat.widget.Toolbar>
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <ImageView
+                android:id="@+id/iv_image"
+                android:layout_width="184dp"
+                android:layout_height="184dp"
+                android:layout_gravity="center_horizontal"
+                android:importantForAccessibility="no"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appbar"
+                tools:src="@tools:sample/avatars" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/stats_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/base_stats"
+                android:textColor="@color/black"
+                android:textSize="21sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_image" />
+
+            <TextView
+                android:id="@+id/hp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/hp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/stats_title" />
+
+            <TextView
+                android:id="@+id/progress_hp"
+                android:layout_width="0dp"
+                android:layout_height="18dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintBottom_toBottomOf="@id/hp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/hp"
+                app:layout_constraintTop_toTopOf="@id/hp" />
+
+            <TextView
+                android:id="@+id/attack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/atk"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/hp" />
+
+            <TextView
+                android:id="@+id/progress_attack"
+                android:layout_width="0dp"
+                android:layout_height="18dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintBottom_toBottomOf="@id/attack"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/progress_hp"
+                app:layout_constraintTop_toTopOf="@id/attack" />
+
+            <TextView
+                android:id="@+id/defense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/def"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/attack" />
+
+            <TextView
+                android:id="@+id/progress_defence"
+                android:layout_width="0dp"
+                android:layout_height="18dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintBottom_toBottomOf="@id/defense"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/progress_hp"
+                app:layout_constraintTop_toTopOf="@id/defense" />
+
+            <TextView
+                android:id="@+id/speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/spd"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/defense" />
+
+            <TextView
+                android:id="@+id/progress_speed"
+                android:layout_width="0dp"
+                android:layout_height="18dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintBottom_toBottomOf="@id/speed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/progress_hp"
+                app:layout_constraintTop_toTopOf="@id/speed" />
+
+            <TextView
+                android:id="@+id/special_atk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/special_atk"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/speed" />
+
+            <TextView
+                android:id="@+id/progress_special_atk"
+                android:layout_width="0dp"
+                android:layout_height="18dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintBottom_toBottomOf="@id/special_atk"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/progress_hp"
+                app:layout_constraintTop_toTopOf="@id/special_atk" />
+
+            <TextView
+                android:id="@+id/special_def"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/special_def"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/special_atk" />
+
+            <TextView
+                android:id="@+id/progress_special_def"
+                android:layout_width="0dp"
+                android:layout_height="18dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintBottom_toBottomOf="@id/special_def"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/progress_hp"
+                app:layout_constraintTop_toTopOf="@id/special_def" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/category_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/base_category"
+                android:textColor="@color/black"
+                android:textSize="21sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progress_special_def" />
+
+            <TextView
+                android:id="@+id/category_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/category_title"
+                app:layout_constraintStart_toStartOf="@+id/category_title"
+                app:layout_constraintTop_toBottomOf="@id/category_title"
+                tools:text="@string/hp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.merabk.axaliapipokemonebi.presentation.StateView>
+
+
+</FrameLayout>
