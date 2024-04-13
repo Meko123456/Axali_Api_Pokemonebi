@@ -3,7 +3,6 @@ package com.merabk.axaliapipokemonebi.data.usecase
 import com.merabk.axaliapipokemonebi.domain.model.PokemonMainPageModel
 import com.merabk.axaliapipokemonebi.domain.repo.PokemonRepository
 import com.merabk.axaliapipokemonebi.domain.usecase.GetPokemonListUseCase
-import com.merabk.axaliapipokemonebi.util.Constants
 import com.merabk.axaliapipokemonebi.util.Constants.PAGE_SIZE
 import dagger.Reusable
 import javax.inject.Inject
